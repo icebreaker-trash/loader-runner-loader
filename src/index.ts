@@ -1,11 +1,3 @@
-export const foo = 'bar'
+function loader() {}
 
-export const wait = (timeout?: number) => {
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      resolve(true)
-    }, timeout)
-  })
-}
-
-export * from '@/util'
+export default loader
