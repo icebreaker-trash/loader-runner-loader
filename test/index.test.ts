@@ -10,8 +10,9 @@ import {
 } from 'webpack-build-utils'
 import MiniCssExtractPlugin from 'mini-css-extract-plugin'
 import webpack from 'webpack'
-import { minimatch } from 'minimatch'
-import loaderRunnerLoader from '@/index'
+// import { minimatch } from 'minimatch'
+// import tailwindcss from 'tailwindcss'
+// import loaderRunnerLoader from '@/index'
 // import { runLoaders } from 'promisify-loader-runner'
 // 测试目录下有 wxml，会导致模块找不到！！！！
 // 同时document.querySelector('#app').innerHTML = 要有
@@ -123,6 +124,65 @@ describe('[Default]', () => {
                 ]
               }
             ]
+          }
+        ]
+      }
+    })
+    // @ts-ignore
+    // customCompiler.outputFileSystem = fs
+    const stats = await compile(customCompiler)
+    const assets = readAssets(customCompiler, stats)
+    expect(assets).toMatchSnapshot('assets')
+    expect(getErrors(stats)).toMatchSnapshot('errors')
+    expect(getWarnings(stats)).toMatchSnapshot('warnings')
+  })
+
+  it('multipleContexts case 1', async () => {
+    const context = path.resolve(__dirname, './fixtures/multiple-contexts')
+    const pc = path.resolve(context, 'postcss.config.js')
+    const mpc = path.resolve(context, 'postcss.config.module.js')
+    const customCompiler = getMemfsCompiler5({
+      mode: 'production',
+
+      optimization: {
+        sideEffects: false
+      },
+      entry: {
+        index: './src/index.js',
+        module: './src/module/index.js'
+      },
+      context,
+      plugins: [new MiniCssExtractPlugin()],
+      //
+      module: {
+        rules: [
+          {
+            test: /\.css$/i,
+            use: [
+              MiniCssExtractPlugin.loader,
+              'css-loader',
+              {
+                loader: 'postcss-loader',
+                options: {
+                  // function
+                  postcssOptions: (
+                    loaderContext: webpack.LoaderContext<object>
+                  ) => {
+                    const isModule = /module[/\\]\w+\.css/.test(
+                      loaderContext.resourcePath
+                    )
+                    if (isModule) {
+                      return {
+                        ...require(mpc)
+                      }
+                    }
+                    return {
+                      ...require(pc)
+                    }
+                  }
+                }
+              }
+            ] //, 'css-loader', 'postcss-loader'],
           }
         ]
       }
