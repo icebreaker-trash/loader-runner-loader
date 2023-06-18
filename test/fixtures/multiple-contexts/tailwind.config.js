@@ -1,5 +1,5 @@
 const path = require('node:path')
-
+console.log('tailwind.config')
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: [

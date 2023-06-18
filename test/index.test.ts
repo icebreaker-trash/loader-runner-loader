@@ -9,6 +9,9 @@ import {
   getWarnings
 } from 'webpack-build-utils'
 import MiniCssExtractPlugin from 'mini-css-extract-plugin'
+import webpack from 'webpack'
+import { minimatch } from 'minimatch'
+import loaderRunnerLoader from '@/index'
 // import { runLoaders } from 'promisify-loader-runner'
 // 测试目录下有 wxml，会导致模块找不到！！！！
 // 同时document.querySelector('#app').innerHTML = 要有
@@ -37,6 +40,89 @@ describe('[Default]', () => {
           {
             test: /\.css$/i,
             use: [MiniCssExtractPlugin.loader, 'css-loader', 'postcss-loader']
+          }
+        ]
+      }
+    })
+    // @ts-ignore
+    // customCompiler.outputFileSystem = fs
+    const stats = await compile(customCompiler)
+    const assets = readAssets(customCompiler, stats)
+    expect(assets).toMatchSnapshot('assets')
+    expect(getErrors(stats)).toMatchSnapshot('errors')
+    expect(getWarnings(stats)).toMatchSnapshot('warnings')
+  })
+
+  it('multipleContexts case 0', async () => {
+    // process.chdir(process.cwd())
+    // // 为什么无效，缓存了吗
+    // cached postcss
+    const context = path.resolve(__dirname, './fixtures/multiple-contexts')
+    const pc = path.resolve(context, 'postcss.config.js')
+    const mpc = path.resolve(context, 'postcss.config.module.js')
+    const customCompiler = getMemfsCompiler5({
+      mode: 'production',
+
+      optimization: {
+        sideEffects: false
+      },
+      entry: {
+        index: './src/index.js',
+        module: './src/module/index.js'
+      },
+      context,
+      plugins: [new MiniCssExtractPlugin()],
+      //
+      module: {
+        rules: [
+          {
+            // nested rules
+            // 先执行 子项，再执行父
+            test: /\.css$/i,
+            use: [MiniCssExtractPlugin.loader, 'css-loader'], //, 'css-loader', 'postcss-loader'],
+            // https://www.npmjs.com/package/postcss-loader#postcssOptions
+            rules: [
+              {
+                test: /\.css$/i,
+                use: [
+                  {
+                    loader: 'postcss-loader',
+                    options: {
+                      // function
+                      postcssOptions: (
+                        loaderContext: webpack.LoaderContext<object>
+                      ) => {
+                        // (?!\.)[^/]+ *
+                        // const reg = minimatch.makeRe('**/module/**/*.css')
+                        // console.log(reg)
+                        // (?:\/|(?:(?!(?:\/|^)\.).)*?\/)?
+                        const isModule = /module[/\\]\w+\.css/.test(
+                          loaderContext.resourcePath
+                        )
+                        //  minimatch(
+                        //   loaderContext.resourcePath,
+                        //   '**/module/**/*.css',
+                        //   {
+                        //     partial: true
+                        //   }
+                        // )
+                        // 为什么无效，缓存了吗
+                        if (isModule) {
+                          return {
+                            config: mpc
+                          }
+                        }
+                        // loaderContext.resourcePath
+                        // config
+                        return {
+                          config: pc
+                        }
+                      }
+                    }
+                  }
+                ]
+              }
+            ]
           }
         ]
       }
