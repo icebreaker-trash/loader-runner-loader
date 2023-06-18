@@ -94,6 +94,9 @@ devDependencies:
   only-allow:
     specifier: ^1.1.1
     version: 1.1.1
+  postcss:
+    specifier: ^8.4.24
+    version: 8.4.24
   postcss-loader:
     specifier: ^7.3.3
     version: 7.3.3(postcss@8.4.24)(webpack@5.87.0)

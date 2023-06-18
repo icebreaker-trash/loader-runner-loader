@@ -69,6 +69,7 @@
     "lodash-es": "^4.17.21",
     "mini-css-extract-plugin": "^2.7.6",
     "only-allow": "^1.1.1",
+    "postcss": "^8.4.24",
     "postcss-loader": "^7.3.3",
     "prettier": "^2.8.8",
     "rollup": "^3.25.1",

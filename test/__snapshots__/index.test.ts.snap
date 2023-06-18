@@ -1,0 +1,42 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`[Default] > multipleContexts > assets 1`] = `
+{
+  "index.css": "
+
+/* .a {
+  color: red;
+} */
+.after\\\\:content-\\\\[\\\\'index\\\\.js\\\\'\\\\]::after {
+    --tw-content: 'index.js';
+    content: var(--tw-content)
+}
+.after\\\\:content-\\\\[\\\\'index\\\\.wxml\\\\'\\\\]::after {
+    --tw-content: 'index.wxml';
+    content: var(--tw-content)
+}
+
+",
+  "index.js": "(()=>{\\"use strict\\";document.querySelector(\\"#app\\").innerHTML='\\\\n<main class=\\"after:content-[\\\\'index.js\\\\']\\"\\">\\\\n</main>\\\\n'})();",
+  "module.css": "
+
+/* .b {
+  color: blue;
+} */
+.after\\\\:content-\\\\[\\\\'index\\\\.js\\\\'\\\\]::after {
+    --tw-content: 'index.js';
+    content: var(--tw-content)
+}
+.after\\\\:content-\\\\[\\\\'index\\\\.wxml\\\\'\\\\]::after {
+    --tw-content: 'index.wxml';
+    content: var(--tw-content)
+}
+
+",
+  "module.js": "(()=>{\\"use strict\\";document.querySelector(\\"#app\\").innerHTML=\\"\\\\n<main class=\\\\\\"after:content-['m/index.js']\\\\\\">\\\\n</main>\\\\n\\"})();",
+}
+`;
+
+exports[`[Default] > multipleContexts > errors 1`] = `[]`;
+
+exports[`[Default] > multipleContexts > warnings 1`] = `[]`;
