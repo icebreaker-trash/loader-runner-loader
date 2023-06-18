@@ -168,7 +168,7 @@ describe('[Default]', () => {
                   postcssOptions: (
                     loaderContext: webpack.LoaderContext<object>
                   ) => {
-                    const isModule = /module[/\\]\w+\.css/.test(
+                    const isModule = /module[/\\](?:\w+[/\\])*\w+\.css$/.test(
                       loaderContext.resourcePath
                     )
                     if (isModule) {
