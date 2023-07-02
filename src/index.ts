@@ -2,6 +2,7 @@ import { runLoaders } from 'promisify-loader-runner'
 import type { RunLoaderOption } from 'promisify-loader-runner'
 import loaderUtils from 'loader-utils'
 import webpack from 'webpack'
+// import omit from 'lodash/omit'
 
 type UserDefinedOptions = {
   use?: RuleUseOption
@@ -62,15 +63,25 @@ const loader: LoaderType = async function (source, sourceMap, additionalData) {
   }
   // @ts-ignore
   const loaders: any[] = typeof use === 'string' ? [use] : use
-  const { result } = await runLoaders({
-    context: this,
-    loaders,
-    readResource,
-    resource: this.resource
-    // readResource
-  })
+  try {
+    const { result } = await runLoaders({
+      // 需要
+      context: {
+        ...this,
+        getOptions: loaderUtils.getOptions.bind(this),
+        resource: undefined
+      },
+      loaders,
+      readResource,
+      resource: this.resource
+      // readResource
+    })
 
-  return Array.isArray(result) ? (result[0] as string | Buffer) : result ?? ''
+    return Array.isArray(result) ? (result[0] as string | Buffer) : result ?? ''
+  } catch (error) {
+    console.error(error)
+    return source
+  }
 }
 
 export default loader

@@ -1,5 +1,30 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
+exports[`[Default] > loader-runner-loader case 1 > assets 1`] = `
+{
+  "index.css": "
+
+/* .a {
+  color: red;
+} */
+.after\\\\:content-\\\\[\\\\'index\\\\.js\\\\'\\\\]::after {
+    --tw-content: 'index.js';
+    content: var(--tw-content)
+}
+.after\\\\:content-\\\\[\\\\'index\\\\.wxml\\\\'\\\\]::after {
+    --tw-content: 'index.wxml';
+    content: var(--tw-content)
+}
+
+",
+  "index.js": "(()=>{\\"use strict\\";document.querySelector(\\"#app\\").innerHTML='\\\\n<main class=\\"after:content-[\\\\'index.js\\\\']\\"\\">\\\\n</main>\\\\n'})();",
+}
+`;
+
+exports[`[Default] > loader-runner-loader case 1 > errors 1`] = `[]`;
+
+exports[`[Default] > loader-runner-loader case 1 > warnings 1`] = `[]`;
+
 exports[`[Default] > multipleContexts > assets 1`] = `
 {
   "index.css": "

@@ -195,4 +195,62 @@ describe('[Default]', () => {
     expect(getErrors(stats)).toMatchSnapshot('errors')
     expect(getWarnings(stats)).toMatchSnapshot('warnings')
   })
+
+  it('loader-runner-loader case 1', async () => {
+    const context = path.resolve(__dirname, './fixtures/multiple-contexts')
+    // const pc = path.resolve(context, 'postcss.config.js')
+    // const mpc = path.resolve(context, 'postcss.config.module.js')
+    const customCompiler = getMemfsCompiler5({
+      mode: 'production',
+
+      optimization: {
+        sideEffects: false
+      },
+      entry: {
+        index: './src/index.js'
+        // module: './src/module/index.js'
+      },
+      context,
+      plugins: [new MiniCssExtractPlugin()],
+      //
+      module: {
+        rules: [
+          {
+            test: /\.css$/i,
+            use: [
+              MiniCssExtractPlugin.loader,
+
+              {
+                loader: path.resolve(__dirname, '../dist/index.js'),
+                options: {
+                  use: [
+                    require.resolve('css-loader'),
+                    {
+                      loader: require.resolve('postcss-loader'),
+                      options: {
+                        postcssOptions: {
+                          plugins: {
+                            tailwindcss: {}
+                          }
+                        }
+                      }
+                    }
+                  ]
+                },
+                // @ts-ignore
+                ident: 'loader-runner-loader'
+              }
+            ] //, 'css-loader', 'postcss-loader'],
+          }
+        ]
+      }
+    })
+    // @ts-ignore
+    // customCompiler.outputFileSystem = fs
+    const stats = await compile(customCompiler)
+    const assets = readAssets(customCompiler, stats)
+    expect(assets).toMatchSnapshot('assets')
+    expect(getErrors(stats)).toMatchSnapshot('errors')
+    expect(getWarnings(stats)).toMatchSnapshot('warnings')
+  })
 })

@@ -89,7 +89,7 @@
   },
   "dependencies": {
     "@types/loader-utils": "^2.0.3",
-    "loader-utils": "^3.2.1",
+    "loader-utils": "^2.0.4",
     "promisify-loader-runner": "^1.0.0"
   },
   "peerDependencies": {
