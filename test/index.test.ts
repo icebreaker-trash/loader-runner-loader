@@ -34,6 +34,7 @@ describe('[Default]', () => {
         module: './src/module/index.js'
       },
       context,
+      // @ts-ignore
       plugins: [new MiniCssExtractPlugin()],
       //
       module: {
@@ -72,6 +73,7 @@ describe('[Default]', () => {
         module: './src/module/index.js'
       },
       context,
+      // @ts-ignore
       plugins: [new MiniCssExtractPlugin()],
       //
       module: {
@@ -152,6 +154,7 @@ describe('[Default]', () => {
         module: './src/module/index.js'
       },
       context,
+      // @ts-ignore
       plugins: [new MiniCssExtractPlugin()],
       //
       module: {
@@ -211,6 +214,7 @@ describe('[Default]', () => {
         // module: './src/module/index.js'
       },
       context,
+      // @ts-ignore
       plugins: [new MiniCssExtractPlugin()],
       //
       module: {

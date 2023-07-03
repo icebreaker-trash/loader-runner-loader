@@ -68,7 +68,7 @@ const loader: LoaderType = async function (source, sourceMap, additionalData) {
       // 需要
       context: {
         ...this,
-        getOptions: loaderUtils.getOptions.bind(this),
+        getOptions: loaderUtils.getOptions,
         resource: undefined
       },
       loaders,
