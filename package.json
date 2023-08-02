@@ -59,7 +59,7 @@
     "@types/lodash": "^4.14.195",
     "@types/lodash-es": "^4.17.7",
     "@types/node": "^20.3.3",
-    "@vitest/coverage-v8": "^0.32.3",
+    "@vitest/coverage-v8": "^0.34.0",
     "bumpp": "^9.1.1",
     "create-functional-loader": "^0.1.0",
     "cross-env": "^7.0.3",
@@ -88,7 +88,7 @@
     "tslib": "^2.6.0",
     "typescript": "^5.1.6",
     "typescript-transform-paths": "^3.4.6",
-    "vitest": "^0.32.3",
+    "vitest": "^0.34.0",
     "webpack": "^5.88.1",
     "webpack-build-utils": "^0.0.4"
   },
