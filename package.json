@@ -89,7 +89,7 @@
     "typescript-transform-paths": "^3.4.6",
     "vitest": "^0.34.6",
     "webpack": "^5.89.0",
-    "webpack-build-utils": "^0.0.4"
+    "webpack-build-utils": "^0.0.7"
   },
   "dependencies": {
     "@types/loader-utils": "^2.0.6",
